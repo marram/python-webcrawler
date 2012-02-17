@@ -20,6 +20,7 @@ import optparse
 import hashlib
 from Queue import Queue
 from BeautifulSoup import BeautifulSoup
+import time
 
 __version__ = "0.2"
 __copyright__ = "CopyRight (C) 2008-2011 by James Mills"
@@ -220,6 +221,7 @@ class Fetcher(object):
         return (request, handle)
 
     def fetch(self):
+        start = time.time()
         print "Fetching ..."+self.url
         request, handle = self._open()
         self._addHeaders(request)
@@ -254,6 +256,8 @@ class Fetcher(object):
                     url = urlparse.urljoin(self.url, href)
                     if url not in self:
                         self.out_urls.append(url)
+        elapsed = (time.time() - start)
+        print "Elapsed: " + str(elapsed)
 
 def getLinks(url):
     page = Fetcher(url)
